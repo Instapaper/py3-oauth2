@@ -551,9 +551,11 @@ class Request(dict):
         url_params = cls._split_url_string(param_str)
         parameters.update(url_params)
  
-        if parameters:
-            return cls(http_method, http_url, parameters)
- 
+        if parameters or param_str:
+            req = cls(http_method, http_url, parameters)
+            req.url = req.normalized_url
+            return req
+
         return None
  
     @classmethod
